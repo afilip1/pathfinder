@@ -21,12 +21,15 @@ fn main() {
 
     let mut maze = Maze::new(&maze_txt);
 
-    if let Some(path) = walk(maze.start, &maze, &mut HashSet::new()) {
-        // path.reverse();
-        for m in &path {
-            maze[m.1][m.0] = 2;
+    if let Some(mut path) = walk(maze.start, &maze, &mut HashSet::new()) {
+        path.reverse();
+        for i in 1..path.len() {
+            for m in &path[0..i] {
+                maze[m.1][m.0] = 2;
+            }
+            maze.render();
+            std::thread::sleep(std::time::Duration::from_millis(100));
         }
-        maze.render();
         println!("Number of moves: {}", path.len());
     }
 }
