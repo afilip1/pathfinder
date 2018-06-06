@@ -1,13 +1,15 @@
 extern crate ansi_term;
 
-use std::collections::HashSet;
-use std::io::Read;
-
 mod maze;
 mod point;
 
 use maze::*;
 use point::*;
+
+use std::collections::HashSet;
+use std::io::Read;
+use std::thread;
+use std::time::Duration;
 
 fn main() {
     let maze_txt = {
@@ -28,7 +30,7 @@ fn main() {
                 maze[m.1][m.0] = 2;
             }
             maze.render();
-            std::thread::sleep(std::time::Duration::from_millis(100));
+            thread::sleep(Duration::from_millis(100));
         }
         println!("Number of moves: {}", path.len());
     }
