@@ -6,20 +6,10 @@ mod point;
 use maze::*;
 use point::*;
 
-use std::collections::HashSet;
-use std::io::Read;
-use std::thread;
-use std::time::Duration;
+use std::{thread, collections::HashSet, time::Duration};
 
 fn main() {
-    let maze_txt = {
-        let mut buf = String::new();
-        std::fs::File::open("maze2.txt")
-            .unwrap()
-            .read_to_string(&mut buf)
-            .unwrap();
-        buf
-    };
+    let maze_txt = include_str!("../maze2.txt");
 
     let mut maze = Maze::new(&maze_txt);
 
