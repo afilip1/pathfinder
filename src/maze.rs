@@ -10,21 +10,21 @@ pub struct Maze {
     pub end: Point,
 }
 
-impl Index<usize> for Maze {
-    type Output = [u8];
+impl Index<Point> for Maze {
+    type Output = u8;
 
-    fn index(&self, idx: usize) -> &[u8] {
-        let from = idx * self.width;
-        let to = (idx + 1) * self.width;
-        &self.layout[from..to]
+    fn index(&self, idx: Point) -> &u8 {
+        let from = idx.1 * self.width;
+        let to = (idx.1 + 1) * self.width;
+        &self.layout[from..to][idx.0]
     }
 }
 
-impl IndexMut<usize> for Maze {
-    fn index_mut(&mut self, idx: usize) -> &mut [u8] {
-        let from = idx * self.width;
-        let to = (idx + 1) * self.width;
-        &mut self.layout[from..to]
+impl IndexMut<Point> for Maze {
+    fn index_mut(&mut self, idx: Point) -> &mut u8 {
+        let from = idx.1 * self.width;
+        let to = (idx.1 + 1) * self.width;
+        &mut self.layout[from..to][idx.0]
     }
 }
 
@@ -65,7 +65,7 @@ impl Maze {
         if pos.0 >= self.width || pos.1 >= self.width {
             true
         } else {
-            self[pos.1][pos.0] == 0
+            self[pos] == 0
         }
     }
 
@@ -88,7 +88,7 @@ impl Maze {
         for y in 0..self.width {
             for x in 0..self.width {
                 out_buf.push_str(
-                    match self[y][x] {
+                    match self[Point(x,y)] {
                         0 => &wall,
                         1 if self.start == Point(x, y) => "..",
                         1 if self.end == Point(x, y) => "''",
